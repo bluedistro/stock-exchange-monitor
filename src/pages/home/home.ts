@@ -8,11 +8,6 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { Storage } from '@ionic/storage';
 
-import * as HighCharts from 'highcharts';
-import { Chart } from 'chart.js';
-
-
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -30,9 +25,9 @@ export class HomePage implements OnInit{
 
  dataSource: Object
  constructor(private platform: Platform,  public loadingController: LoadingController, private se: StockProvider, private storage: Storage, private localNotifications: LocalNotifications, public backgroundMode: BackgroundMode){
-   this.isAndroid = platform.is('android'); 
+   this.isAndroid = platform.is('android');
  }
-  
+
 
    ngOnInit(){
       this.loadingController.create({
@@ -76,10 +71,10 @@ export class HomePage implements OnInit{
                 at: new Date(new Date().getTime() + 3600)
               });
             }
-        } // end of for loop to check for changes in data 
+        } // end of for loop to check for changes in data
 
        }); // stored data retrieval
-      
+
       // chart drawing
 
         this.dataSource = {
@@ -248,7 +243,7 @@ export class HomePage implements OnInit{
      .subscribe(stockData => {
        this.stockInfo = stockData;
        refresher.complete();
-    
+
        this.storage.set('stored_value', this.stockInfo);
 
        this.storage.get('stored_value').then((val) => {
@@ -276,12 +271,12 @@ export class HomePage implements OnInit{
                 at: new Date(new Date().getTime() + 3600)
               });
             }
-        } 
+        }
 
-       }); 
+       });
 
      });
-    
+
    }
 
   getEquityInfo(equity){
@@ -303,5 +298,5 @@ export class HomePage implements OnInit{
     console.log(this.eqName);
     this.getEquityInfo(this.eqName);
   }
- 
+
 }
