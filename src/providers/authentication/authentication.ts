@@ -20,6 +20,7 @@ export class AuthenticationProvider {
 
     constructor(private facebook: Facebook, private network: Network, private toastCtrl: ToastController, private router: Router){}
 
+    //login using facebook
     login(){
         return this.facebook.login(['email', 'public_profile']).then((response: FacebookLoginResponse) => {
             this.facebook.api('me?fields=id, name, email, firstname, picture.width(720).height(720).as(picture_large)', []).then(profile => {
@@ -31,14 +32,15 @@ export class AuthenticationProvider {
                 position: 'top'
             });
             toast.present();
-            
+
             });
-            
+
             // this.nav.push(TabsPage);
-    
+
         });
     }
 
+    //log user out
     logout(){
           this.facebook.logout().then(res => {
            console.log('Logged out');

@@ -25,12 +25,12 @@ export class LoginPage {
 
     ionViewDidEnter(){
         this.network.onConnect().subscribe(data => {
-          console.log(data);  
+          //console.log(data);
           this.displayNetworkUpdate(data.type);
         }, error => console.log(error));
 
         this.network.onDisconnect().subscribe(data => {
-            console.log(data);
+            //console.log(data);
             this.displayNetworkUpdate(data.type);
         }, error => console.log(error));
     }
@@ -54,7 +54,7 @@ export class LoginPage {
     // }
 
     loginfb(){
-        
+
         this.network.onDisconnect().subscribe(data => {
             console.log(data);
             this.displayNetworkUpdate(data.type);
@@ -70,7 +70,7 @@ export class LoginPage {
                 position: 'top'
             });
             toast.present();
-            
+
             });
             if (response.status == 'connected'){
                 this.navCtrl.push(TabsPage);
@@ -82,7 +82,7 @@ export class LoginPage {
             });
             toast.present();
             }
-            
+
         });
 
     }

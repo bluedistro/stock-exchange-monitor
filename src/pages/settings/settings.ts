@@ -11,6 +11,8 @@ import { LoginPage } from '../../pages/login/login';
 export class SettingsPage {
 
   constructor(private facebook: Facebook, private navCtrl: NavController){}
+
+    //Logout user from the system
     logout(){
       this.facebook.getLoginStatus().then(data => {
         if(data.status == 'connected'){
