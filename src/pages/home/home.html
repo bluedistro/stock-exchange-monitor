@@ -1,14 +1,165 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+  <ion-navbar no-border-bottom>
+    <ion-title>GSE</ion-title>
   </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="home">
+      <ion-segment-button value="stockExchange">
+        <!--<ion-icon name="cloud"></ion-icon>-->
+        Tickers
+      </ion-segment-button>
+      <ion-segment-button value="stockGraphs">Graphs</ion-segment-button>
+      <ion-segment-button value="tickerDetails">Enquiry</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content class="homePage">
+
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content 
+    pullingText=""
+    pullingIcon="arrow-dropdown"
+    refreshingSpinner="circles"
+    refreshingText="">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div [ngSwitch]="home">
+
+   <ion-list *ngSwitchCase="'stockExchange'">
+
+     <ion-row>
+       <ion-col>
+         <strong>Stock Symbol</strong>
+       </ion-col>
+       <ion-col>
+         <strong>Current Stock Price</strong>
+       </ion-col>
+       <ion-col>
+         <strong>Change</strong>
+       </ion-col>
+       <ion-col>
+         <strong>Volume</strong>
+       </ion-col>
+     </ion-row>
+
+     <ion-row *ngFor="let sI of stockInfo">
+        <ion-col>
+          {{ sI.name }}
+        </ion-col>
+        <ion-col>
+          {{ sI.price }}
+        </ion-col>
+        <ion-col>
+          {{ sI.change }}
+        </ion-col>
+        <ion-col>
+          {{ sI.volume }}
+        </ion-col>
+     </ion-row>
+
+   </ion-list>
+
+   <!-- for the stock graphs -->
+   <ion-list *ngSwitchCase="'stockGraphs'">
+     <ion-grid style="height: 100%">
+       <ion-row justify-content-center align-items-center style="height: 100%">
+        <ion-card  padding>
+            <ion-item style="margin-bottom: 10px;">
+                <fusioncharts
+                    width="260"
+                    height="500"
+                    type="Doughnut2D"
+                    dataFormat="JSON"
+                    [dataSource]="dataSource">
+                </fusioncharts>
+            </ion-item>
+        </ion-card>
+        <ion-card>
+            <ion-item style="margin-bottom: 10px;">
+                <fusioncharts
+                    width="260"
+                    height="500"
+                    type="Area2D"
+                    dataFormat="JSON"
+                    [dataSource]="dataSource">
+                </fusioncharts>
+            </ion-item>
+          </ion-card>
+        <ion-card padding>
+            <ion-item style="margin-bottom: 10px;">
+                <fusioncharts
+                    width="260"
+                    height="500"
+                    type="Column3D"
+                    dataFormat="JSON"
+                    [dataSource]="dataSource">
+                </fusioncharts>
+            </ion-item>
+          </ion-card>
+       </ion-row>
+     </ion-grid>
+   </ion-list>
+   
+
+   <!-- for more details on a particular ticker -->
+   <ion-list *ngSwitchCase="'tickerDetails'">
+
+     <form (ngSubmit)="submitForm()" padding>
+
+       <ion-item>
+         <!--<ion-label>Enter Symbol of Company</ion-label>-->
+         <ion-input type="text" [(ngModel)]="eqName" placeholder="Enter Symbol of Company" name="symbol"></ion-input>
+       </ion-item>
+
+       <button ion-button type="submit" block>Get Information</button>
+     </form>
+
+     <ion-card padding *ngIf="equityInfo">
+       <ion-card-header text-wrap>
+         <strong>Company Name: </strong> {{ equityInfo.company.name }}
+       </ion-card-header>
+       <ion-item text-wrap> 
+        <strong>Industry: </strong> {{ equityInfo.company.industry }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>Sector: </strong> {{ equityInfo.company.sector}} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>Telephone: </strong> {{ equityInfo.company.telephone }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>Website: </strong> {{ equityInfo.company.website }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>Email: </strong> {{ equityInfo.company.email }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>Address: </strong> {{ equityInfo.company.address }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>Capital (GHC): </strong> {{ equityInfo.capital }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>DPS: </strong> {{ equityInfo.dps }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>EPS: </strong> {{ equityInfo.eps }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>Price (GHC):</strong> {{ equityInfo.price }} 
+       </ion-item>
+       <ion-item text-wrap> 
+        <strong>Shares: </strong> {{ equityInfo.shares }} 
+       </ion-item>
+
+     </ion-card>
+
+   </ion-list>
+
+
+ </div>  
 </ion-content>

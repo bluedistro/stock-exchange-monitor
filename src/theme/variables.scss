@@ -38,8 +38,19 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  bright:     #ffffff,
+  ultra:      #dff
 );
+
+// top-toolbar
+$toolbar-md-background: color($colors, primary);
+$toolbar-md-active-color: color($colors, bright);
+$toolbar-md-inactive-color: color($colors, dark);
+
+$tabs-md-background: color($colors, primary);
+$tabs-md-tab-color-active: color($colors, bright);
+$tabs-md-tab-color-inactive: color($colors, dark);
 
 
 // App iOS Variables
